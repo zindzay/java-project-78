@@ -7,7 +7,7 @@ public final class StringSchema extends BaseSchema<String> {
     }
 
     public StringSchema required() {
-        this.addCondition((String value) -> !value.isEmpty());
+        this.addCondition((String value) -> isNotNull(value) && !value.isEmpty());
         return this;
     }
 

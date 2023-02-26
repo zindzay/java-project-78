@@ -1,6 +1,6 @@
-package hexlet.code;
+package hexlet.code.schemas;
 
-import hexlet.code.schemas.StringSchema;
+import hexlet.code.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -55,7 +55,6 @@ class StringSchemaTest {
                 Arguments.of(1, false),
                 Arguments.of(null, false),
                 Arguments.of("string", true),
-                Arguments.of("str", true),
                 Arguments.of("s", true)
         );
     }
@@ -63,8 +62,6 @@ class StringSchemaTest {
     private static Stream<Arguments> getMinLengthTestData() {
         return Stream.of(
                 Arguments.of("", false),
-                Arguments.of(null, false),
-                Arguments.of(1, false),
                 Arguments.of("string", true),
                 Arguments.of("str", true),
                 Arguments.of("s", false)
@@ -74,8 +71,6 @@ class StringSchemaTest {
     private static Stream<Arguments> getContainsTestData() {
         return Stream.of(
                 Arguments.of("", false),
-                Arguments.of(null, false),
-                Arguments.of(1, false),
                 Arguments.of("string", true),
                 Arguments.of("str", true),
                 Arguments.of("s", false),

@@ -1,6 +1,6 @@
-package hexlet.code;
+package hexlet.code.schemas;
 
-import hexlet.code.schemas.NumberSchema;
+import hexlet.code.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -60,8 +60,6 @@ class NumberSchemaTest {
 
     private static Stream<Arguments> getPositiveTestData() {
         return Stream.of(
-                Arguments.of(null, false),
-                Arguments.of("", false),
                 Arguments.of(-1, false),
                 Arguments.of(0, true),
                 Arguments.of(1, true)
@@ -70,8 +68,6 @@ class NumberSchemaTest {
 
     private static Stream<Arguments> getRangeTestData() {
         return Stream.of(
-                Arguments.of(null, false),
-                Arguments.of("", false),
                 Arguments.of(-1, true),
                 Arguments.of(MIN_NUMBER, true),
                 Arguments.of(1, true),

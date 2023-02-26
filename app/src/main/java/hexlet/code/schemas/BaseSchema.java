@@ -14,8 +14,7 @@ public abstract class BaseSchema<T> {
             return false;
         }
 
-        final T valueWithType = (T) value;
-        return isNotNull(valueWithType) && conditions.stream().allMatch(condition -> condition.test(valueWithType));
+        return conditions.stream().allMatch(condition -> condition.test((T) value));
     }
 
     protected final void addCondition(Predicate<T> predicate) {
