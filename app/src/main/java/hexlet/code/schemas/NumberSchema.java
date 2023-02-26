@@ -12,7 +12,7 @@ public final class NumberSchema extends BaseSchema<Integer> {
     }
 
     public NumberSchema positive() {
-        this.addCondition((Integer number) -> number != null && number >= 0);
+        this.addCondition((Integer number) -> !isNotNull(number) || number > 0);
         return this;
     }
 

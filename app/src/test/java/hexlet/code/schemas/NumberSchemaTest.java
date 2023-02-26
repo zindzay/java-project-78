@@ -12,41 +12,43 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class NumberSchemaTest {
-    private NumberSchema numberSchema;
+    private Validator validator;
     private static final int MIN_NUMBER = -3;
     private static final int MAX_NUMBER = 10;
 
     @BeforeEach
     public void beforeEach() {
-        numberSchema = new Validator().number();
+        validator = new Validator();
     }
 
     @ParameterizedTest
     @MethodSource("getRequiredTestData")
     void requiredTest(Object value, boolean isValid) {
-        assertThat(numberSchema.required().isValid(value)).isEqualTo(isValid);
+        assertThat(validator.number().required().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
     @MethodSource("getPositiveTestData")
     void positiveTest(Object value, boolean isValid) {
-        assertThat(numberSchema.positive().isValid(value)).isEqualTo(isValid);
+        assertThat(validator.number().positive().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
     @MethodSource("getRangeTestData")
     void rangeTest(Object value, boolean isValid) {
-        assertThat(numberSchema.range(MIN_NUMBER, MAX_NUMBER).isValid(value)).isEqualTo(isValid);
+        assertThat(validator.number().range(MIN_NUMBER, MAX_NUMBER).isValid(value)).isEqualTo(isValid);
     }
 
     @Test
     void isValidTest() {
-        assertThat(numberSchema
+        assertThat(validator.number()
                 .required()
                 .positive()
                 .range(MIN_NUMBER, MAX_NUMBER)
                 .isValid(1)
         ).isTrue();
+
+        assertThat(validator.number().isValid(null)).isTrue();
     }
 
     private static Stream<Arguments> getRequiredTestData() {
@@ -61,7 +63,8 @@ class NumberSchemaTest {
     private static Stream<Arguments> getPositiveTestData() {
         return Stream.of(
                 Arguments.of(-1, false),
-                Arguments.of(0, true),
+                Arguments.of(null, true),
+                Arguments.of(0, false),
                 Arguments.of(1, true)
         );
     }

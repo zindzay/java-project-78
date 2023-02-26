@@ -17,4 +17,15 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         this.addCondition((Map<?, ?> map) -> map.size() == size);
         return this;
     }
+
+    public MapSchema shape(Map<?, BaseSchema<?>> schemas) {
+        this.addCondition(value -> schemas.entrySet()
+                .stream()
+                .allMatch(schemaEntry -> isValid(schemaEntry, value)));
+        return this;
+    }
+
+    private boolean isValid(Map.Entry<?, BaseSchema<?>> schemaEntry, Map<?, ?> value) {
+        return schemaEntry.getValue().isValid(value.get(schemaEntry.getKey()));
+    }
 }
