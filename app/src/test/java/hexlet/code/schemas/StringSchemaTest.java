@@ -25,25 +25,25 @@ class StringSchemaTest {
 
     @ParameterizedTest
     @MethodSource("getRequiredTestData")
-    void requiredTest(Object value, boolean isValid) {
+    void requiredTest(final Object value, final boolean isValid) {
         assertThat(validator.string().required().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
     @MethodSource("getMinLengthTestData")
-    void minLengthTest(Object value, boolean isValid) {
+    void minLengthTest(final Object value, final boolean isValid) {
         assertThat(validator.string().minLength(MIN_LENGTH).isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
     @MethodSource("getContainsTestData1")
-    void containsTest1(Object value, boolean isValid) {
+    void containsTest1(final Object value, final boolean isValid) {
         assertThat(validator.string().contains(FIRST_SUBSTRING).isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
     @MethodSource("getContainsTestData2")
-    void containsTest2(Object value, boolean isValid) {
+    void containsTest2(final Object value, final boolean isValid) {
         assertThat(validator.string().contains(FIRST_SUBSTRING).contains(SECOND_SUBSTRING).isValid(value))
                 .isEqualTo(isValid);
     }

@@ -23,19 +23,19 @@ class NumberSchemaTest {
 
     @ParameterizedTest
     @MethodSource("getRequiredTestData")
-    void requiredTest(Object value, boolean isValid) {
+    void requiredTest(final Object value, final boolean isValid) {
         assertThat(validator.number().required().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
     @MethodSource("getPositiveTestData")
-    void positiveTest(Object value, boolean isValid) {
+    void positiveTest(final Object value, final boolean isValid) {
         assertThat(validator.number().positive().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
     @MethodSource("getRangeTestData")
-    void rangeTest(Object value, boolean isValid) {
+    void rangeTest(final Object value, final boolean isValid) {
         assertThat(validator.number().range(MIN_NUMBER, MAX_NUMBER).isValid(value)).isEqualTo(isValid);
     }
 
