@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 public final class NumberSchema extends BaseSchema<Integer> {
     @Override
-    boolean isInstance(Object value) {
+    boolean isInstance(final Object value) {
         return value instanceof Integer;
     }
 
@@ -16,7 +16,7 @@ public final class NumberSchema extends BaseSchema<Integer> {
         return this;
     }
 
-    public NumberSchema range(int min, int max) {
+    public NumberSchema range(final int min, final int max) {
         this.addCondition((Integer number) -> number >= min && number <= max);
         return this;
     }

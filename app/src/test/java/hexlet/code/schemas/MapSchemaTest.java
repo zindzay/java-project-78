@@ -27,13 +27,13 @@ class MapSchemaTest {
 
     @ParameterizedTest
     @MethodSource("getRequiredTestData")
-    void requiredTest(Object value, boolean isValid) {
+    void requiredTest(final Object value, final boolean isValid) {
         assertThat(validator.map().required().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
     @MethodSource("getSizeTestData")
-    void sizeTest(Object value, boolean isValid) {
+    void sizeTest(final Object value, final boolean isValid) {
         assertThat(validator.map().sizeof(SIZE).isValid(value)).isEqualTo(isValid);
     }
 

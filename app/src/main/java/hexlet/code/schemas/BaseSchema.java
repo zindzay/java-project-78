@@ -9,7 +9,7 @@ public abstract class BaseSchema<T> {
 
     abstract boolean isInstance(Object value);
 
-    public final boolean isValid(Object value) {
+    public final boolean isValid(final Object value) {
         if (isNotNull(value) && !isInstance(value)) {
             return false;
         }
@@ -17,11 +17,11 @@ public abstract class BaseSchema<T> {
         return conditions.stream().allMatch(condition -> condition.test((T) value));
     }
 
-    protected final void addCondition(Predicate<T> predicate) {
+    protected final void addCondition(final Predicate<T> predicate) {
         conditions.add(predicate);
     }
 
-    protected final boolean isNotNull(Object value) {
+    protected final boolean isNotNull(final Object value) {
         return value != null;
     }
 }

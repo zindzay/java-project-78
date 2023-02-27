@@ -2,7 +2,7 @@ package hexlet.code.schemas;
 
 public final class StringSchema extends BaseSchema<String> {
     @Override
-    boolean isInstance(Object value) {
+    boolean isInstance(final Object value) {
         return value instanceof String;
     }
 
@@ -11,12 +11,12 @@ public final class StringSchema extends BaseSchema<String> {
         return this;
     }
 
-    public StringSchema minLength(int minLength) {
+    public StringSchema minLength(final int minLength) {
         this.addCondition((String value) -> value.length() >= minLength);
         return this;
     }
 
-    public StringSchema contains(String substring) {
+    public StringSchema contains(final String substring) {
         this.addCondition((String value) -> value.contains(substring));
         return this;
     }

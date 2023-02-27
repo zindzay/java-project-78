@@ -24,9 +24,9 @@ class ShapeMapSchemaTest {
 
     @ParameterizedTest
     @MethodSource("getTestData")
-    void isValidTest(Object value, boolean isValid) {
+    void isValidTest(final Object value, final boolean isValid) {
         final MapSchema schema = validator.map();
-        final Map<String, BaseSchema<?>> schemas = new HashMap<>();
+        final Map<String, BaseSchema> schemas = new HashMap<>();
         schemas.put(KEY_1, validator.string().required());
         schemas.put(KEY_2, validator.number().positive());
         schema.shape(schemas);
