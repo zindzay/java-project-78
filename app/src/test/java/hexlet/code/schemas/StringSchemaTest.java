@@ -4,10 +4,7 @@ import hexlet.code.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,25 +21,25 @@ class StringSchemaTest {
     }
 
     @ParameterizedTest
-    @MethodSource("getRequiredTestData")
-    void requiredTest(final Object value, final boolean isValid) {
+    @CsvSource(value = {", false", "null, false", "what does the fox say, true", "s, true"}, nullValues = "null")
+    void requiredTest(final String value, final boolean isValid) {
         assertThat(validator.string().required().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
-    @MethodSource("getMinLengthTestData")
-    void minLengthTest(final Object value, final boolean isValid) {
-        assertThat(validator.string().minLength(MIN_LENGTH).isValid(value)).isEqualTo(isValid);
-    }
-
-    @ParameterizedTest
-    @MethodSource("getContainsTestData1")
+    @CsvSource(value = {"'', false", "what does the fox say, true", "s, false", "строка, false"})
     void containsTest1(final Object value, final boolean isValid) {
         assertThat(validator.string().contains(FIRST_SUBSTRING).isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
-    @MethodSource("getContainsTestData2")
+    @CsvSource(value = {"'', false", "what does the fox say, true", "str, true", "s, false"})
+    void minLengthTest(final String value, final boolean isValid) {
+        assertThat(validator.string().minLength(MIN_LENGTH).isValid(value)).isEqualTo(isValid);
+    }
+
+    @ParameterizedTest
+    @CsvSource(value = {"'', false", "what does the fox say, false", "s, false", "строка, false"})
     void containsTest2(final Object value, final boolean isValid) {
         assertThat(validator.string().contains(FIRST_SUBSTRING).contains(SECOND_SUBSTRING).isValid(value))
                 .isEqualTo(isValid);
@@ -58,42 +55,5 @@ class StringSchemaTest {
         ).isTrue();
 
         assertThat(validator.string().isValid(null)).isTrue();
-    }
-
-    private static Stream<Arguments> getRequiredTestData() {
-        return Stream.of(
-                Arguments.of("", false),
-                Arguments.of(1, false),
-                Arguments.of(null, false),
-                Arguments.of(SIMPLE_STRING, true),
-                Arguments.of("s", true)
-        );
-    }
-
-    private static Stream<Arguments> getMinLengthTestData() {
-        return Stream.of(
-                Arguments.of("", false),
-                Arguments.of(SIMPLE_STRING, true),
-                Arguments.of("str", true),
-                Arguments.of("s", false)
-        );
-    }
-
-    private static Stream<Arguments> getContainsTestData1() {
-        return Stream.of(
-                Arguments.of("", false),
-                Arguments.of(SIMPLE_STRING, true),
-                Arguments.of("s", false),
-                Arguments.of("строка", false)
-        );
-    }
-
-    private static Stream<Arguments> getContainsTestData2() {
-        return Stream.of(
-                Arguments.of("", false),
-                Arguments.of(SIMPLE_STRING, false),
-                Arguments.of("s", false),
-                Arguments.of("строка", false)
-        );
     }
 }

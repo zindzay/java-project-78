@@ -4,10 +4,7 @@ import hexlet.code.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.stream.Stream;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,20 +19,20 @@ class NumberSchemaTest {
     }
 
     @ParameterizedTest
-    @MethodSource("getRequiredTestData")
-    void requiredTest(final Object value, final boolean isValid) {
+    @CsvSource(value = {", false", "0, true", "1, true"})
+    void requiredTest(final Integer value, final boolean isValid) {
         assertThat(validator.number().required().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
-    @MethodSource("getPositiveTestData")
-    void positiveTest(final Object value, final boolean isValid) {
+    @CsvSource(value = {"-1, false", ", true", "0, false", "1, true"})
+    void positiveTest(final Integer value, final boolean isValid) {
         assertThat(validator.number().positive().isValid(value)).isEqualTo(isValid);
     }
 
     @ParameterizedTest
-    @MethodSource("getRangeTestData")
-    void rangeTest(final Object value, final boolean isValid) {
+    @CsvSource(value = {"-1, true", "-3, true", "1, true", "10, true", "0, true"})
+    void rangeTest(final Integer value, final boolean isValid) {
         assertThat(validator.number().range(MIN_NUMBER, MAX_NUMBER).isValid(value)).isEqualTo(isValid);
     }
 
@@ -49,33 +46,5 @@ class NumberSchemaTest {
         ).isTrue();
 
         assertThat(validator.number().isValid(null)).isTrue();
-    }
-
-    private static Stream<Arguments> getRequiredTestData() {
-        return Stream.of(
-                Arguments.of(null, false),
-                Arguments.of("", false),
-                Arguments.of(0, true),
-                Arguments.of(1, true)
-        );
-    }
-
-    private static Stream<Arguments> getPositiveTestData() {
-        return Stream.of(
-                Arguments.of(-1, false),
-                Arguments.of(null, true),
-                Arguments.of(0, false),
-                Arguments.of(1, true)
-        );
-    }
-
-    private static Stream<Arguments> getRangeTestData() {
-        return Stream.of(
-                Arguments.of(-1, true),
-                Arguments.of(MIN_NUMBER, true),
-                Arguments.of(1, true),
-                Arguments.of(MAX_NUMBER, true),
-                Arguments.of(0, true)
-        );
     }
 }

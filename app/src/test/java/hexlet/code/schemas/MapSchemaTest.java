@@ -3,12 +3,8 @@ package hexlet.code.schemas;
 import hexlet.code.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Map;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,16 +21,19 @@ class MapSchemaTest {
         validator = new Validator();
     }
 
-    @ParameterizedTest
-    @MethodSource("getRequiredTestData")
-    void requiredTest(final Object value, final boolean isValid) {
-        assertThat(validator.map().required().isValid(value)).isEqualTo(isValid);
+    @Test
+    void requiredTest() {
+        assertThat(validator.map().required().isValid(null)).isFalse();
+        assertThat(validator.map().required().isValid("null")).isFalse();
+        assertThat(validator.map().required().isValid(Map.of())).isTrue();
+        assertThat(validator.map().required().isValid(SIMPLE_MAP)).isTrue();
     }
 
-    @ParameterizedTest
-    @MethodSource("getSizeTestData")
-    void sizeTest(final Object value, final boolean isValid) {
-        assertThat(validator.map().sizeof(SIZE).isValid(value)).isEqualTo(isValid);
+    @Test
+    void sizeTest() {
+        assertThat(validator.map().sizeof(SIZE).isValid(Map.of())).isFalse();
+        assertThat(validator.map().sizeof(SIZE).isValid(Map.of("key1", "value1"))).isFalse();
+        assertThat(validator.map().sizeof(SIZE).isValid(SIMPLE_MAP)).isTrue();
     }
 
     @Test
@@ -46,22 +45,5 @@ class MapSchemaTest {
         ).isTrue();
 
         assertThat(validator.map().isValid(null)).isTrue();
-    }
-
-    private static Stream<Arguments> getRequiredTestData() {
-        return Stream.of(
-                Arguments.of(null, false),
-                Arguments.of("", false),
-                Arguments.of(Map.of(), true),
-                Arguments.of(SIMPLE_MAP, true)
-        );
-    }
-
-    private static Stream<Arguments> getSizeTestData() {
-        return Stream.of(
-                Arguments.of(Map.of(), false),
-                Arguments.of(Map.of("key1", "value1"), false),
-                Arguments.of(SIMPLE_MAP, true)
-        );
     }
 }
